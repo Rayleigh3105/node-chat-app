@@ -20,6 +20,7 @@
   "homepage": "https://github.com/Rayleigh3105/node-chat-app#readme",
   "dependencies": {
     "express": "^4.14.0",
+    "moment": "^2.15.1",
     "socket.io": "^1.4.8"
   },
   "devDependencies": {
