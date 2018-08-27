@@ -12,23 +12,37 @@ socket.on('disconnect', function() {
 
 // Listen on newEmail Event
 socket.on('newMessage', function ( message ) {
-    console.log('Got new Message', message)
+    var formattedTime = moment(message.createdAt).format('h:mm a');
+    // Get template which is created with moustache.js
+    var template = jQuery('#message-template').html();
 
-    var li = jQuery('<li></li>')
-    li.text(`${message.from}: ${message.text}`)
+    // Render in HTML
+    var html= Mustache.render( template, {
+        text: message.text,
+        from: message.from,
+        createdAt: formattedTime
+    });
 
-    jQuery('#messages').append( li );
+    // Appends it to the html
+    jQuery('#messages').append( html );
+
 });
 
 socket.on('newLocationMessage', function ( message ) {
-    var li = jQuery('<li></li>')
-    var a = jQuery('<a target="_blank">Get my Current Location</a>');
-    li.text(`${message.from}: `)
-    a.attr('href', message.url);
+    var formattedTime = moment(message.createdAt).format('h:mm a');
 
-    li.append( a );
+    // Get template which is created with moustache.js
+    var template = jQuery('#location-message-template').html();
 
-    jQuery('#messages').append( li );
+    // Render in HTML
+    var html= Mustache.render( template, {
+        createdAt: formattedTime,
+        from: message.from,
+        url : message.url
+    });
+
+    // Appends it to the html
+    jQuery('#messages').append( html );
 
 });
 
